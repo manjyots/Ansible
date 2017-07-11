@@ -1,0 +1,8 @@
+---
+  - name: copy file
+    copy: src=/usr/local/etc/ansible/apache2/tasks/index.html dest=/var/www/html/index.html mode=0644
+    notify:
+     - start apache2
+
+  
+  

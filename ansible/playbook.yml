@@ -1,0 +1,4 @@
+---
+- hosts: test-servers
+  roles: 
+    - apache2
