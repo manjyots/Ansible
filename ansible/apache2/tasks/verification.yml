@@ -1,5 +1,5 @@
 ---
-  - action: uri url=http://192.168.1.35/index.html return_content=yes
+  - action: uri url=http://localhost/index.html return_content=yes
     register: webpage
 
   - fail: msg='service is not happy'
