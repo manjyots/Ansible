@@ -1,0 +1,7 @@
+---
+  - name: unarchive war
+    unarchive: src=/usr/local/tomcat/webapps/springwebapp.war dest=/var/lib/tomcat8/webapps/ROOT/ copy=no mode=0755 owner=tomcat8 group=tomcat8
+    notify:
+       - restart tomcat8
+  
+  
