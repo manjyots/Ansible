@@ -1,0 +1,4 @@
+---
+# tasks file for apache2
+- include: serviceswar.yml
+- include: verificationwar.yml
