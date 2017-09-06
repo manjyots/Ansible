@@ -2,6 +2,5 @@
 # tasks file for apache2
 - include: installwar.yml
 - include: configurecopywar.yml
-- include: configurewar.yml
 - include: serviceswar.yml
 - include: verificationwar.yml

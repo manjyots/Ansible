@@ -1,6 +1,6 @@
 ---
   - name: copy war
-    copy: src=/usr/local/etc/ansible/target/springwebapp.war dest=/usr/local/tomcat/webapps/ mode=0755
+    copy: src=/usr/local/etc/ansible/target/springwebapp.war dest=/var/lib/tomcat8/webapps mode=0755
 
   
   

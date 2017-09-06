@@ -2,3 +2,6 @@
 - hosts: test-servers
   roles: 
     - apache2
+- hosts: test-server-docker
+  roles:
+    - dockertests
