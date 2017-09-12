@@ -1,20 +1,27 @@
-FROM ubuntu:14.04
-
-RUN apt-get update && apt-get install -y openjdk-8-jre-headless
-RUN apt-get install -y tomcat8
-RUN apt-get install -y openssh-server
+FROM tomcat:8.0
+ADD target/*.war /usr/local/tomcat/webapps/
+ 
+#RUN sh /usr/local/tomcat/bin/shutdown.sh
+ 
+RUN apt-get update && apt-get install -y vim
+RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
-RUN echo 'root:root' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-
+RUN echo 'root:screencast' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+ 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
+RUN mkdir -p ~/.ssh
+RUN touch ~/.ssh/authorized_keys
+RUN echo ~/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+ 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
-
-RUN useradd -ms /bin/bash jenkins
-RUN echo 'jenkins:jenkins' | chpasswd
-EXPOSE 80
-ADD target/*.war /usr/local/tomcat/webapps/
+ 
+EXPOSE 8080
+EXPOSE 22
+ 
+# RUN /usr/local/tomcat/bin/startup.sh
+# RUN service ssh start
+ 
+CMD /usr/local/tomcat/bin/startup.sh && service ssh restart && /bin/bash
