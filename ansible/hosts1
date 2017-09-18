@@ -1,0 +1,4 @@
+[test-servers]
+root@10.133.22.116
+[test-server-docker]
+0.0.0.0 ansible_port=34569 ansible_user=root ansible_python_interpreter=/usr/bin/python3
