@@ -1,0 +1,61 @@
+# please install below two plugins before running vagrant yp
+# vagrant plugin install hostmanager
+# vagrant plugin install vagrant-vbguest
+
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/xenial64"
+  config.vbguest.auto_update = true
+
+config.vm.define "ansible-controller", primary: true do |h|
+    h.vm.network "private_network", ip: "192.0.0.100"
+    h.vm.provision :shell, :inline => <<'EOF'
+if [ ! -f "/home/ubuntu/.ssh/id_rsa" ]; then
+  ssh-keygen -t rsa -N "" -f /home/ubuntu/.ssh/id_rsa
+fi
+cp /home/ubuntu/.ssh/id_rsa.pub /vagrant/control.pub
+cat << 'SSHEOF' > /home/ubuntu/.ssh/config
+Host *
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+SSHEOF
+
+chown -R ubuntu:ubuntu /home/ubuntu/.ssh/
+EOF
+       h.vm.provision :shell, inline: 'sudo apt-get  update'
+       h.vm.provision :shell, inline: 'sudo apt-get install -y openjdk-8-jdk'
+       h.vm.provision :shell, inline: 'sudo apt-get install -y maven'
+       h.vm.provision :shell, inline: 'sudo apt-get install -y ansible'
+       h.vm.provision :shell, inline: 'sudo apt-get install -y docker.io'
+       h.vm.provision :shell, inline: 'sudo apt-get install -y git'
+       h.vm.provision :shell, inline: 'sudo git clone https://github.com/manjyots/Ansible'
+       h.vm.provision :shell, inline: 'sudo hostname ansible-controller'
+       h.vm.provision :shell, inline: 'sudo sed -i -e "s/ubuntu-xenial/ansible-controller/g" /etc/hosts'
+       h.vm.provision :shell, inline: 'sudo sed -i -e "s/ubuntu-xenial/ansible-controller/g" /etc/hostname'
+
+end
+
+
+  config.vm.define "test-server1" do |h|
+    h.vm.network "private_network", ip: "192.0.0.101"
+    h.vm.provision :shell, inline: 'cat /vagrant/control.pub >> /home/ubuntu/.ssh/authorized_keys'
+    h.vm.provision :shell, inline: 'sudo apt-get install -y python'
+    h.vm.provision :shell, inline: 'sudo apt-get update && apt-get install -y python-pip'
+    h.vm.provision :shell, inline: 'sudo apt-get install -y python-httplib2'
+    h.vm.provision :shell, inline: 'sudo hostname test-server1'
+    h.vm.provision :shell, inline: 'sudo sed -i -e  "s/ubuntu-xenial/test-server1/g" /etc/hosts'
+    h.vm.provision :shell, inline: 'sudo sed -i -e  "s/ubuntu-xenial/test-server1/g" /etc/hostname'
+ end
+
+   config.vm.define "test-server2" do |h|
+     h.vm.network "private_network", ip: "192.0.0.102"
+    h.vm.provision :shell, inline: 'cat /vagrant/control.pub >> /home/ubuntu/.ssh/authorized_keys'
+    h.vm.provision :shell, inline: 'sudo apt-get install -y python'
+    h.vm.provision :shell, inline: 'sudo apt-get update && apt-get install -y python-pip'
+    h.vm.provision :shell, inline: 'sudo apt-get install -y python-httplib2'
+    h.vm.provision :shell, inline: 'sudo hostname test-server2' 
+    h.vm.provision :shell, inline: 'sudo sed -i -e "s/ubuntu-xenial/test-server2/g" /etc/hosts'
+    h.vm.provision :shell, inline: 'sudo sed -i -e "s/ubuntu-xenial/test-server2/g" /etc/hostname'
+end
+
+end
