@@ -12,9 +12,9 @@
 
   - assert:
        that:
-       - "'UTC 2017' in cmd_result.stdout"  
+       - "'IST 2017' in cmd_result.stdout"  
 
-  - stat: path=/var/lib/tomcat8/webapps/springwebapp.war
+  - stat: path=/var/www/html/index.html
     register: p
 
   - assert:

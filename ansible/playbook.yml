@@ -1,6 +1,5 @@
 ---
 - hosts: test-servers
-  become: yes
   roles: 
     - apache2
 - hosts: test-server-docker
