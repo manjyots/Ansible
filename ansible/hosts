@@ -1,4 +1,3 @@
 [test-servers]
-root@10.133.22.116
-[test-server-docker]
-127.0.0.1:22
+        192.0.0.101  ansible_user=ubuntu
+        192.0.0.102  ansible_user=ubuntu
