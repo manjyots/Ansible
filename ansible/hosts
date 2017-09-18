@@ -1,4 +1,4 @@
 [test-servers]
 root@10.133.22.1
 [test-server-docker]
-docker	ansible_connection=ssh	ansible_host=127.0.0.1	ansible_port=49999	ansible_user=root	ansible_python_interpreter=/usr/bin/python3
+localhost	ansible_connection=ssh	ansible_port=39999	ansible_user=root	ansible_python_interpreter=/usr/bin/python3
