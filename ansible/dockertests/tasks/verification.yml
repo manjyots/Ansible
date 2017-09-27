@@ -1,5 +1,5 @@
 ---
-  - action: uri url=http://10.133.21.217:49998/springwebapp/car/add return_content=yes
+  - action: uri url=http://10.133.23.82:49998/springwebapp/car/add return_content=yes
     register: webpage
 
   - fail: msg='service is not happy'
