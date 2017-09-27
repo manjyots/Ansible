@@ -1,4 +1,11 @@
 ---
+  - shell: service tomcat8 status
+    register: cmd_result_tom
+
+  - assert:
+       that:
+       - "'active' in cmd_result_tom.stdout"
+
   - name: Saving content in webpage 
     action: uri url=http://localhost:8080/springwebapp/car/add return_content=yes
     register: webpage
